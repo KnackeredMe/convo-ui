@@ -1,0 +1,37 @@
+@import "../../../style-variables.scss";
+
+div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 70px;
+  background-color: $color-background;
+  padding: 0 16px;
+}
+
+.logo {
+  width: 250px;
+  font-family: 'Mitr', sans-serif;
+  font-weight: 500;
+  font-size: 25px;
+  color: $color-light-green;
+  display: flex;
+  align-items: center;
+  img {
+    width: 40px;
+    margin-right: 5px;
+  }
+}
+
+.product-search {
+  width: 700px;
+  height: 30px;
+  margin-left: 15px;
+  border-radius: 20px;
+  border: 2px solid black;
+  padding-left: 20px;
+  background-color: #444248;
+  color: #FFFFFF;
+  font-size: 16px;
+}
+

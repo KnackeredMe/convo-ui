@@ -1,0 +1,15 @@
+<div class="product-page-wrapper">
+  <div *ngIf="product" class="product-wrapper">
+    <button type="button" class="back-button" (click)="goBack()"><mat-icon>navigate_before</mat-icon></button>
+    <img class="product-image" src="{{product?.imageUrl}}" alt="{{product?.name}}">
+    <div class="product-overflow-wrapper">
+      <div class="product-info-wrapper">
+        <span class="product-type">{{product.productType | titlecase}}</span>
+        <span class="product-name">{{product.name}}</span>
+        <span class="product-price">{{product.price}}$</span>
+        <span class="product-in-stock">In Stock: {{product.quantity}}</span>
+        <p class="product-description">{{product.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>

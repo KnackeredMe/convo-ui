@@ -1,0 +1,12 @@
+<div class="products-page-wrapper">
+  <app-sidebar></app-sidebar>
+  <div class="products-wrapper">
+    <div *ngFor="let product of productService.products" class="product-card" (click)="selectProduct(product)">
+      <img src="{{product.imageUrl}}" alt="{{product.name}}" class="product-image">
+      <div class="product-info">
+        <span class="product-name">{{product.name}}</span>
+        <span class="product-price">{{product.price}}$</span>
+      </div>
+    </div>
+  </div>
+</div>

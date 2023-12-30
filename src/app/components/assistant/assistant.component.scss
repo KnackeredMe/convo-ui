@@ -1,0 +1,30 @@
+@import "../../../style-variables.scss";
+.assistant-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100vw - 1020px);
+  height: 100%;
+  background-color: rgba($color-background, 0.9);
+  h2 {
+    padding: 16px 26px 0 26px;
+    margin-bottom: 0;
+    color: $color-light-green;
+  }
+  .recognised-text {
+    color: #FFFFFF;
+    font-size: 20px;
+  }
+  .dictation-button {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+    background-color: $color-light-green;
+    border: 2px solid black;
+    border-radius: 50%;
+  }
+}

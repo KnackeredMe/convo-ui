@@ -1,0 +1,14 @@
+<div class="sidebar">
+  <h2>Products</h2>
+  <mat-selection-list #filter>
+    <mat-list-option *ngFor="let type of productTypes" (selectedChange)="updateProducts()" [value]="type">
+      {{type.name | titlecase}}
+    </mat-list-option>
+  </mat-selection-list>
+
+  <div class="toolbar-wrapper">
+    <p class="selected">Filters applied: {{filter.selectedOptions.selected.length + (filterService.filters.productNameSearch ? 1 : 0)}}</p>
+    <button *ngIf="filter.selectedOptions.selected.length || filterService.filters.productNameSearch" type="button" class="clear-filters-button" (click)="clearFilters()">Clear</button>
+  </div>
+
+</div>
