@@ -1,7 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ProductService} from "../../services/product.service";
-import {ProductType} from "../../models/product-type";
-import {IProductFilters} from "../../models/product-filters";
+import {IProductType} from "../../models/product-type";
 import {MatListOption} from "@angular/material/list";
 import {FilterService} from "../../services/filter.service";
 
@@ -12,7 +11,7 @@ import {FilterService} from "../../services/filter.service";
 })
 export class SidebarComponent implements OnInit {
 
-  public productTypes: ProductType[] | undefined;
+  public productTypes: IProductType[] | undefined;
   @ViewChild('filter') filter: any;
 
   constructor(private productService: ProductService,
@@ -26,7 +25,7 @@ export class SidebarComponent implements OnInit {
       }
     )
     this.filterService.clearFiltersSubject.subscribe({
-      next: res => {
+      next: () => {
         this.filter.deselectAll();
       }
     })

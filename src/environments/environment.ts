@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://onlineshop.purpleglacier-867bba1e.westeurope.azurecontainerapps.io/'
+  baseUrl: 'https://online-shop.delightfulwater-f9bbc0d1.westeurope.azurecontainerapps.io/'
 };
 
 /*

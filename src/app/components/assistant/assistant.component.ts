@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AssistantService} from "../../services/assistant.service";
 
 @Component({
   selector: 'app-assistant',
@@ -8,10 +9,10 @@ import { Component, OnInit } from '@angular/core';
 export class AssistantComponent implements OnInit {
   private speechRecognition?: SpeechRecognition;
   public recognizedText: string = '';
-  constructor() { }
+  constructor(private assistantService: AssistantService) { }
 
   ngOnInit(): void {
-    this.initSpeechRecognition()
+    this.initSpeechRecognition();
   }
 
   initSpeechRecognition() {
@@ -19,11 +20,14 @@ export class AssistantComponent implements OnInit {
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     this.speechRecognition = new window.SpeechRecognition;
     this.speechRecognition.lang = "en-US";
-    // this.speechRecognition.interimResults = true;
     this.speechRecognition.addEventListener('result', (event: any) => {
       this.recognizedText = Array.from(event.results).map((result: any) => result[0]).map((result: any) => result.transcript).join(' ');
-    })
-    // this.speechRecognition.start();
+      this.assistantService.recognition(this.recognizedText).subscribe({
+        next: res => {
+          this.assistantService.processResponse(res);
+        }
+      });
+    });
   }
 
   startSpeechRecognition() {

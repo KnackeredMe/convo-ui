@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {ProductService} from "../../services/product.service";
-import {IProductFilters} from "../../models/product-filters";
 import {IProduct} from "../../models/product";
 import {FilterService} from "../../services/filter.service";
 import {Router} from "@angular/router";
@@ -28,7 +27,6 @@ export class ProductsPageComponent implements OnInit {
   }
 
   getProducts() {
-    console.log('INIT');
     this.productService.getProducts(this.filterService.filters).subscribe({
       next: (res: IProduct[]) => {
         this.productService.products = res;
@@ -37,6 +35,6 @@ export class ProductsPageComponent implements OnInit {
   }
 
   selectProduct(product: IProduct) {
-    this.router.navigate(['products', product.name])
+    this.router.navigate(['products', product.name]).then();
   }
 }
