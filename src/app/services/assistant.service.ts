@@ -31,8 +31,11 @@ export class AssistantService {
   }
 
   public processResponse(response: IRecognizedFilters[]) {
-    response.forEach((filter, index) => {
-      let message;
+    let message;
+    let navigate = false;
+    response.forEach(filter => {
+      const value = (filter.value).replace(/\s/g, "");
+      const valueNum = parseInt(value, 10);
       switch (filter.key) {
         case 'error':
           message = filter.value; break;
@@ -50,38 +53,114 @@ export class AssistantService {
           if (!this.productService.products?.length) {
             message = "Sorry, no items meet search or filter condition so I can not choose any."; break;
           }
-          const min = 1;
-          const max = this.productService.products.length;
-          const value = (filter.value).replace(/\s/g, "");
-          const valueNum = parseInt(value, 10);
+          const minItems = 1;
+          const maxItems = this.productService.products.length;
+
           if (value === 'last') {
-            message = `Opening item ${max}.`;
-            this.router.navigate(['products', this.productService.products[max - 1].name]).then();
+            message = `Opening item ${maxItems}.`;
+            this.router.navigate(['products', this.productService.products[maxItems - 1].name]).then();
             break;
           }
           if (isNaN(valueNum)) {
-            message = `Sorry, but you requested to open an item that doesn't exist. There are only ${max} items on the page`; break;
+            message = `Sorry, but you requested to open an item that doesn't exist. There are only ${maxItems} items on the page`; break;
           }
-          if (valueNum >= min && valueNum <= max) {
+          if (valueNum >= minItems && valueNum <= maxItems) {
             message = `Opening item ${valueNum}.`;
             this.router.navigate(['products', this.productService.products[valueNum - 1].name]).then();
             break;
           }
           message = "Sorry, something went wrong. Please try again."; break;
         case 'page':
-          //TODO
+          const minPages = 1;
+          const maxPages = this.productService.products?.length ? this.productService.products[0].pagesTotal : 0;
+          if (maxPages === 0) {
+            message = "Sorry, I can not switch pages as there are no items that meet search or filter conditions."; break;
+          }
+          if (value === 'last') {
+            message = `Opening page ${maxPages}.`;
+            this.filterService.filters.pageNumber = maxPages;
+            navigate = true;
+            break;
+          }
+          if (isNaN(valueNum)) {
+            message = `Sorry, but you requested to open a page that doesn't exist. There are only ${maxPages} pages for this search conditions`; break;
+          }
+          // if (value.charAt(0) === '+' && this.productService.products && this.filterService.filters.pageNumber + valueNum <= this.productService.products[0].pagesTotal) {
+          //   this.filterService.filters.pageNumber += valueNum;
+          //   message = `Going ${valueNum} pages forward`;
+          //   navigate = true;
+          // }
+          // if (value.charAt(0) === '-' && this.productService.products && this.filterService.filters.pageNumber - valueNum > 0) {
+          //   this.filterService.filters.pageNumber -= valueNum;
+          //   message = `Going ${valueNum} pages backward`;
+          //   navigate = true;
+          // }
+          if (valueNum >= minPages && valueNum <= maxPages) {
+            message = `Opening page ${valueNum}.`;
+            this.filterService.filters.pageNumber = valueNum;
+            navigate = true;
+            break;
+          }
+          message = "Sorry, something went wrong. Please try again."; break;
         case 'search':
-          //TODO
+          this.filterService.filters.productNameSearch = filter.value;
+          message = "Here you are.";
+          navigate = true;
+          break;
         case 'sort':
-          //TODO
+          if (filter.value === '') {
+            this.filterService.filters.sortBy = 'name';
+            this.filterService.filters.sortOrder = 'asc';
+            message = "Here you are.";
+            navigate = true;
+            break;
+          }
+          const sortArr = filter.value.trim().split(" ");
+          if (sortArr.length === 2) {
+            this.filterService.filters.sortBy = sortArr[0];
+            this.filterService.filters.sortOrder = sortArr[1];
+            message = "Here you are.";
+            navigate = true;
+            break;
+          }
+          message = "Sorry, something went wrong. Please try again."; break;
         case 'filter':
-          //TODO
-
-      }
-      if (message) {
-        this.announceMessage(message);
+          if (value === "") {
+            this.filterService.filters.productTypeIds = [];
+            message = "Here you are.";
+            navigate = true;
+            break;
+          }
+          const numArray: number[] = [];
+          const filterArr = value.split(",");
+          filterArr.forEach(el => {
+            const id = parseInt(el, 10);
+            if (isNaN(id)) {
+              message = "Sorry, something went wrong. Please try again.";
+              return;
+            }
+            numArray.push(id);
+          });
+          this.filterService.filters.productTypeIds = numArray;
+          navigate = true;
+          message = "Here you are.";
+          break;
+        default:
+          message = "Sorry, something went wrong. Please try again.";
       }
     })
+    if (message) {
+      this.announceMessage(message);
+    }
+    if (navigate) {
+      if (this.router.url === '/products') {
+        this.productService.getProducts(this.filterService.filters).subscribe({
+          next: res => this.productService.products = res
+        });
+      } else {
+        this.router.navigate(['products']).then();
+      }
+    }
   }
 
   public announceMessage(message: string) {
