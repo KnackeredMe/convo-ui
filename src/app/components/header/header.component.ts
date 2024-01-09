@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FilterService} from "../../services/filter.service";
+import {ProductService} from "../../services/product.service";
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,8 @@ import {FilterService} from "../../services/filter.service";
 export class HeaderComponent implements OnInit {
 
   public searchText: string = '';
-  constructor(private filterService: FilterService) { }
+  constructor(private filterService: FilterService,
+              private productService: ProductService) { }
 
   ngOnInit(): void {
   }
@@ -17,7 +19,7 @@ export class HeaderComponent implements OnInit {
   search() {
     this.filterService.clearFilters();
     this.filterService.filters.productNameSearch = this.searchText;
-    this.filterService.searchEventSubject.next();
+    this.productService.getProductsEventSubject.next(null);
   }
 
 }

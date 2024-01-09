@@ -29,12 +29,21 @@ export class SidebarComponent implements OnInit {
         this.filter.deselectAll();
       }
     })
+    this.filterService.updateFiltersSubject.subscribe({
+      next: () => {
+        this.filter.deselectAll();
+        const optionsToSelect = this.filter.options.filter((option: any) => {
+          return this.filterService.filters.productTypeIds?.includes(option.value.id);
+        });
+        this.filter.selectedOptions.select(...optionsToSelect);
+      }
+    })
   }
 
   updateProducts() {
     if (!this.filter) return;
     this.filterService.filters.productTypeIds = this.filter.selectedOptions.selected.map((product: MatListOption) => product.value.id);
-    this.filterService.searchEventSubject.next();
+    this.productService.getProductsEventSubject.next(null);
   }
 
   clearFilters() {

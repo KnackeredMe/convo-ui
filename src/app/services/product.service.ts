@@ -1,6 +1,6 @@
-import {ErrorHandler, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {ErrorHandlerService} from "./error-handler.service";
 import {environment} from "../../environments/environment";
@@ -14,6 +14,7 @@ export class ProductService {
 
   private baseUrl: string = environment.baseUrl;
   public products: IProduct[] | undefined;
+  public getProductsEventSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(
     private http: HttpClient,

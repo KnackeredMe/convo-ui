@@ -18,8 +18,7 @@ export class ProductsPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getProducts();
-    this.filterService.searchEventSubject.subscribe({
+    this.productService.getProductsEventSubject.subscribe({
       next: () => {
         this.getProducts();
       }

@@ -15,8 +15,8 @@ export class FilterService {
     sortOrder: ''
   };
 
-  public searchEventSubject: Subject<void> = new Subject<void>();
   public clearFiltersSubject: Subject<void> = new Subject<void>();
+  public updateFiltersSubject: Subject<void> = new Subject<void>();
   constructor() { }
 
   public clearFilters() {

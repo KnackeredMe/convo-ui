@@ -33,6 +33,7 @@ export class AssistantService {
   public processResponse(response: IRecognizedFilters[]) {
     let message;
     let navigate = false;
+    let updateFilters = false;
     response.forEach(filter => {
       const value = (filter.value).replace(/\s/g, "");
       const valueNum = parseInt(value, 10);
@@ -125,6 +126,7 @@ export class AssistantService {
           }
           message = "Sorry, something went wrong. Please try again."; break;
         case 'filter':
+          updateFilters = true;
           if (value === "") {
             this.filterService.filters.productTypeIds = [];
             message = "Here you are.";
@@ -153,12 +155,13 @@ export class AssistantService {
       this.announceMessage(message);
     }
     if (navigate) {
-      if (this.router.url === '/products') {
-        this.productService.getProducts(this.filterService.filters).subscribe({
-          next: res => this.productService.products = res
-        });
-      } else {
+      if (this.router.url !== '/products') {
         this.router.navigate(['products']).then();
+      }
+      if (updateFilters) {
+        this.filterService.updateFiltersSubject.next();
+      } else {
+        this.productService.getProductsEventSubject.next(null);
       }
     }
   }
