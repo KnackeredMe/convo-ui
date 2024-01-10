@@ -39,6 +39,7 @@ export class ProductsPageComponent implements OnInit {
   }
 
   changePage(pageEvent: PageEvent) {
+    this.filterService.filters.itemsPerPage = pageEvent.pageSize;
     this.filterService.filters.pageNumber = pageEvent.pageIndex + 1;
     this.productService.getProductsEventSubject.next(null);
   }

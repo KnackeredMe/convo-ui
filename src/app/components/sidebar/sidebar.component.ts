@@ -13,6 +13,7 @@ export class SidebarComponent implements OnInit {
 
   public productTypes: IProductType[] | undefined;
   @ViewChild('filter') filter: any;
+  @ViewChild('sort') sort: any;
 
   constructor(private productService: ProductService,
               public filterService: FilterService) { }
@@ -51,4 +52,18 @@ export class SidebarComponent implements OnInit {
     this.updateProducts();
   }
 
+  changeSort(value: string) {
+    this.filterService.filters.sortBy = value;
+    this.productService.getProductsEventSubject.next(null);
+  }
+
+  changeSortOrder() {
+    if (this.filterService.filters.sortOrder === '' || this.filterService.filters.sortOrder === 'asc') {
+      this.filterService.filters.sortOrder = 'desc';
+
+    } else if (this.filterService.filters.sortOrder === 'desc') {
+      this.filterService.filters.sortOrder = 'asc';
+    }
+    this.productService.getProductsEventSubject.next(null);
+  }
 }

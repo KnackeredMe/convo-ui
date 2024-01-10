@@ -1,1 +1,1 @@
-<mat-paginator [length]="length" [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="page?.emit($event)" aria-label="Select page" hidePageSize="true"></mat-paginator>
+<mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[3, 6, 12]" [pageIndex]="pageIndex" (page)="page?.emit($event)" aria-label="Select page"></mat-paginator>

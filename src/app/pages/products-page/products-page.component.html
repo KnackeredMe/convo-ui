@@ -10,7 +10,8 @@
         </div>
       </div>
     </div>
-    <custom-paginator *ngIf="productService.products"
+    <span *ngIf="!productService.products?.length" class="products-empty">No products found. Please, try to change filters</span>
+    <custom-paginator *ngIf="productService.products && productService.products.length"
                       [length]="filterService.filters.itemsPerPage * productService.products[0].pagesTotal"
                       [pageSize]="filterService.filters.itemsPerPage" [pageIndex]="filterService.filters.pageNumber - 1" (page)="changePage($event)"></custom-paginator>
   </div>

@@ -11,3 +11,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 *:focus {
   outline: none;
 }
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: $color-green;
+}

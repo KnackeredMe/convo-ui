@@ -14,10 +14,14 @@ export class HeaderComponent implements OnInit {
               private productService: ProductService) { }
 
   ngOnInit(): void {
+    this.filterService.clearFiltersSubject.subscribe({
+      next: () => {
+        this.searchText = '';
+      }
+    })
   }
 
   search() {
-    this.filterService.clearFilters();
     this.filterService.filters.productNameSearch = this.searchText;
     this.productService.getProductsEventSubject.next(null);
   }

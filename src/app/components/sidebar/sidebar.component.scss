@@ -26,18 +26,32 @@
       font-weight: 600;
       margin-bottom: 0;
     }
-    .clear-filters-button {
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      color: $color-light-green;
-      font-size: 16px;
-      font-weight: 600;
-      margin-right: 10px;
-      &:hover {
-        text-decoration: underline;
-      }
+  }
+  .clear-filters-button, .sort-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: $color-light-green;
+    font-size: 16px;
+    font-weight: 600;
+    margin-right: 10px;
+    &:hover {
+      text-decoration: underline;
     }
   }
+  .sort-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .sort-button {
+      margin-top: 16px;
+    }
+  }
+}
 
+mat-select {
+  padding-left: 15px;
+  margin: 20px 0;
+  width: 220px;
+  font-size: 16px;
 }

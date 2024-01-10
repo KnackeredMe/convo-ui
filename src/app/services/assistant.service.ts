@@ -36,7 +36,7 @@ export class AssistantService {
     let updateFilters = false;
     response.forEach(filter => {
       const value = (filter.value).replace(/\s/g, "");
-      const valueNum = parseInt(value, 10);
+      const valueNum = Math.abs(parseInt(value, 10));
       switch (filter.key) {
         case 'error':
           message = filter.value; break;
@@ -83,19 +83,22 @@ export class AssistantService {
             navigate = true;
             break;
           }
-          if (isNaN(valueNum)) {
+          if (this.productService.products && (value.charAt(0) === '+' && this.filterService.filters.pageNumber + valueNum > this.productService.products[0].pagesTotal) ||
+            (value.charAt(0) === '-' && this.filterService.filters.pageNumber - valueNum < 0)) {
             message = `Sorry, but you requested to open a page that doesn't exist. There are only ${maxPages} pages for this search conditions`; break;
           }
-          // if (value.charAt(0) === '+' && this.productService.products && this.filterService.filters.pageNumber + valueNum <= this.productService.products[0].pagesTotal) {
-          //   this.filterService.filters.pageNumber += valueNum;
-          //   message = `Going ${valueNum} pages forward`;
-          //   navigate = true;
-          // }
-          // if (value.charAt(0) === '-' && this.productService.products && this.filterService.filters.pageNumber - valueNum > 0) {
-          //   this.filterService.filters.pageNumber -= valueNum;
-          //   message = `Going ${valueNum} pages backward`;
-          //   navigate = true;
-          // }
+          if (value.charAt(0) === '+' && this.productService.products && this.filterService.filters.pageNumber + valueNum <= this.productService.products[0].pagesTotal) {
+            this.filterService.filters.pageNumber += this.filterService.filters.pageNumber === 0 ? valueNum + 1 : valueNum;
+            message = `Going ${valueNum} pages forward`;
+            navigate = true;
+            break;
+          }
+          if (value.charAt(0) === '-' && this.productService.products && this.filterService.filters.pageNumber - valueNum > 0) {
+            this.filterService.filters.pageNumber -= valueNum;
+            message = `Going ${valueNum} pages backwards`;
+            navigate = true;
+            break;
+          }
           if (valueNum >= minPages && valueNum <= maxPages) {
             message = `Opening page ${valueNum}.`;
             this.filterService.filters.pageNumber = valueNum;

@@ -1,5 +1,15 @@
 <div class="sidebar">
-  <h2>Products</h2>
+  <div class="sort-toolbar">
+    <h2>Sort by</h2>
+    <button type="button" class="sort-button"
+            (click)="changeSortOrder()">{{filterService.filters.sortOrder ? filterService.filters.sortOrder.toUpperCase() : 'ASC'}}</button>
+  </div>
+  <mat-select #sort placeholder="Select option" [value]="filterService.filters.sortBy" (selectionChange)="changeSort($event.value)">
+    <mat-option value="name">Name</mat-option>
+    <mat-option value="price">Price</mat-option>
+  </mat-select>
+
+  <h2>Products Filter</h2>
   <mat-selection-list #filter>
     <mat-list-option *ngFor="let type of productTypes" (selectedChange)="updateProducts()" [value]="type">
       {{type.name | titlecase}}

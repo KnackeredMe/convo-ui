@@ -16,6 +16,7 @@ import {FormsModule} from "@angular/forms";
 import { ProductPageComponent } from './pages/product-page/product-page.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {CustomPaginator} from "./components/custom-paginator/custom-paginator";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {CustomPaginator} from "./components/custom-paginator/custom-paginator";
     MatIconModule,
     MatInputModule,
     MatPaginatorModule,
+    MatSelectModule,
     FormsModule,
   ],
   providers: [],
