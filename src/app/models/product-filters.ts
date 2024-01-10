@@ -1,4 +1,5 @@
 export interface IProductFilters {
+  itemsPerPage: number,
   pageNumber: number,
   productNameSearch: string,
   productTypeIds: number[] | null,

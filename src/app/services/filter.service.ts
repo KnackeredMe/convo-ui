@@ -8,6 +8,7 @@ import {Subject} from "rxjs";
 export class FilterService {
 
   public filters: IProductFilters = {
+    itemsPerPage: 3,
     pageNumber: 0,
     productNameSearch: '',
     productTypeIds: null,
@@ -21,6 +22,7 @@ export class FilterService {
 
   public clearFilters() {
     this.filters = {
+      itemsPerPage: 3,
       pageNumber: 0,
       productNameSearch: '',
       productTypeIds: null,

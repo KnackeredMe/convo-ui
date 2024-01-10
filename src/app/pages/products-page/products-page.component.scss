@@ -1,12 +1,18 @@
+@import "../../../style-variables.scss";
 .products-page-wrapper {
   height: 100%;
   display: flex;
 }
 .products-wrapper {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 750px;
+}
+.product-cards {
+  display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
-  width: 750px;
 }
 .product-card {
   display: flex;
@@ -34,5 +40,19 @@
       font-weight: 500;
     }
   }
-
 }
+custom-paginator {
+  ::ng-deep mat-paginator {
+    width: 100%;
+    color: $color-background;
+    background-color: #e9e9e9;
+    ::ng-deep.mat-paginator-container {
+      justify-content: center;
+      .mat-button-disabled {
+        color: gray;
+      }
+    }
+    margin-top: auto;
+  }
+}
+

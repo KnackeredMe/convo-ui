@@ -6,5 +6,5 @@ export interface IProduct {
   pagesTotal: number,
   price: number,
   productType: string,
-  quantity: number
+  quantity: number,
 }

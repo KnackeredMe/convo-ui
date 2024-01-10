@@ -14,6 +14,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import { ProductPageComponent } from './pages/product-page/product-page.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {CustomPaginator} from "./components/custom-paginator/custom-paginator";
 
 @NgModule({
   declarations: [
@@ -22,7 +24,8 @@ import { ProductPageComponent } from './pages/product-page/product-page.componen
     SidebarComponent,
     HeaderComponent,
     AssistantComponent,
-    ProductPageComponent
+    ProductPageComponent,
+    CustomPaginator
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,8 @@ import { ProductPageComponent } from './pages/product-page/product-page.componen
     MatListModule,
     MatIconModule,
     MatInputModule,
-    FormsModule
+    MatPaginatorModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
