@@ -17,16 +17,17 @@
     font-size: 20px;
   }
   .dictation-button {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     background-color: $color-light-green;
     transition: background-color 200ms;
     border: 2px solid black;
     border-radius: 50%;
+    cursor: pointer;
     &.active {
       animation: pulse 2s infinite;
     }
@@ -49,7 +50,7 @@
 }
 
 .messages-wrapper {
-  width: calc(100vw - 1220px);
+  width: calc(100vw - 1020px);
   height: 25vh;
   display: flex;
   flex-direction: column;
@@ -73,7 +74,7 @@
 
 .chat-bubble-left {
   margin-right: auto;
-  margin-left: 50px;
+  margin-left: 30px;
   &:after {
     content: ' ';
     position: absolute;
@@ -90,7 +91,7 @@
 
 .chat-bubble-right {
   margin-left: auto;
-  margin-right: 50px;
+  margin-right: 30px;
   &:after {
     content: ' ';
     position: absolute;
