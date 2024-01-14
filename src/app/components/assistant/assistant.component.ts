@@ -11,7 +11,9 @@ import { delay, tap } from 'rxjs/operators';
 export class AssistantComponent implements OnInit {
   private speechRecognition?: SpeechRecognition;
   public recognizedText: string = '';
-  constructor(private assistantService: AssistantService, private scene: SceneService) { }
+  public isMicActive: boolean = false;
+  public wait: boolean = false;
+  constructor(public assistantService: AssistantService, private scene: SceneService) { }
 
   ngOnInit(): void {
     this.initSpeechRecognition();
@@ -32,13 +34,18 @@ export class AssistantComponent implements OnInit {
       ).subscribe({
         next: res => {
           this.assistantService.processResponse(res);
+          this.wait = false;
         }
       });
     });
   }
 
   startSpeechRecognition() {
-    this.speechRecognition?.start();
+    if(this.speechRecognition) {
+      this.speechRecognition.onaudiostart = () => {this.isMicActive = true; this.wait = true;}
+      this.speechRecognition.onaudioend = () => this.isMicActive = false;
+      this.speechRecognition?.start();
+    }
   }
 
 }

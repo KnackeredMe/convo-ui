@@ -45,7 +45,6 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    this.filterService.clearFilters();
     this.router.navigate(['products']).then();
   }
 }

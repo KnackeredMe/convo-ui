@@ -18,6 +18,7 @@ export class AssistantService {
   private baseUrl: string = environment.baseUrl;
   private speechSynthesis: SpeechSynthesis = window.speechSynthesis;
   private voice: SpeechSynthesisVoice = this.speechSynthesis.getVoices()[17];
+  public message: string;
 
   constructor(
     private http: HttpClient,
@@ -44,7 +45,7 @@ export class AssistantService {
       switch (filter.key) {
         case 'error':
           isSuccess = false;
-          message = filter.value; 
+          message = filter.value;
           break;
         case 'exit':
           if (this.router.url === '/products') {
@@ -191,6 +192,7 @@ export class AssistantService {
       this.scene.runAnimation('Fail');
     }
     if (message) {
+      this.message = message;
       this.announceMessage(message);
     }
     if (navigate) {

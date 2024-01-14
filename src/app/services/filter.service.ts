@@ -22,7 +22,7 @@ export class FilterService {
 
   public clearFilters() {
     this.filters = {
-      itemsPerPage: 6,
+      itemsPerPage: this.filters.itemsPerPage,
       pageNumber: 0,
       productNameSearch: '',
       productTypeIds: null,

@@ -1,8 +1,17 @@
 <div class="assistant-wrapper">
   <h2>Assistant</h2>
   <app-scene-container></app-scene-container>
-  <p class="recognised-text">{{recognizedText}}</p>
-  <button type="button" (click)="startSpeechRecognition()" class="dictation-button">
+  <div class="messages-wrapper">
+    <div *ngIf="recognizedText && !this.isMicActive" class="chat-message chat-bubble-right">
+      <span class="chat-message-name">You</span>
+      <p class="chat-message-text">{{recognizedText}}</p>
+    </div>
+    <div *ngIf="assistantService.message && !this.wait" class="chat-message chat-bubble-left">
+      <span class="chat-message-name">Assistant</span>
+      <p class="chat-message-text">{{assistantService.message}}</p>
+    </div>
+  </div>
+  <button type="button" (click)="startSpeechRecognition()" class="dictation-button" [class.active]="isMicActive">
     <mat-icon>mic</mat-icon>
   </button>
 </div>

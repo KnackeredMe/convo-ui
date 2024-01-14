@@ -17,7 +17,7 @@
   </mat-selection-list>
 
   <div class="toolbar-wrapper">
-    <p class="selected">Filters applied: {{filter.selectedOptions.selected.length + (filterService.filters.productNameSearch ? 1 : 0)}}</p>
+    <p class="selected">Options applied: {{filter.selectedOptions.selected.length + (filterService.filters.productNameSearch ? 1 : 0)}}</p>
     <button *ngIf="filter.selectedOptions.selected.length || filterService.filters.productNameSearch" type="button" class="clear-filters-button" (click)="clearFilters()">Clear</button>
   </div>
 

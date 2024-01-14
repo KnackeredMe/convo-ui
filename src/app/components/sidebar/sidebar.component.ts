@@ -44,6 +44,7 @@ export class SidebarComponent implements OnInit {
   updateProducts() {
     if (!this.filter) return;
     this.filterService.filters.productTypeIds = this.filter.selectedOptions.selected.map((product: MatListOption) => product.value.id);
+    this.filterService.filters.pageNumber = 0;
     this.productService.getProductsEventSubject.next(null);
   }
 
@@ -54,6 +55,7 @@ export class SidebarComponent implements OnInit {
 
   changeSort(value: string) {
     this.filterService.filters.sortBy = value;
+    this.filterService.filters.pageNumber = 0;
     this.productService.getProductsEventSubject.next(null);
   }
 
@@ -64,6 +66,7 @@ export class SidebarComponent implements OnInit {
     } else if (this.filterService.filters.sortOrder === 'desc') {
       this.filterService.filters.sortOrder = 'asc';
     }
+    this.filterService.filters.pageNumber = 0;
     this.productService.getProductsEventSubject.next(null);
   }
 }

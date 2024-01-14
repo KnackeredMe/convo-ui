@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { ReplaySubject, fromEvent } from 'rxjs';
 import { take } from 'rxjs/operators';
 import * as THREE from 'three';
-import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +18,8 @@ export class SceneService {
   private animations: THREE.AnimationClip [];
 
   private canvas: HTMLCanvasElement;
-  private backgroundColor = 0xffff;
-  private floorColor = 0xffff;
+  private backgroundColor = 'rgb(69, 66, 72)';
+  private floorColor = 'rgb(80, 77, 84)';
 
   private neckKey = 'mixamorig8Neck';
   private spineKey = 'mixamorig8Spine';
@@ -31,7 +31,7 @@ export class SceneService {
 
   private modelInit$ = new ReplaySubject(1)
 
-  constructor(private zone: NgZone) { 
+  constructor(private zone: NgZone) {
     (window as any).runAnimation = this.runAnimation.bind(this);
   }
 
@@ -56,7 +56,7 @@ export class SceneService {
 
 
   public createScene(canvas: HTMLCanvasElement) {
-  
+
     this.canvas = canvas;
 
 
@@ -87,12 +87,12 @@ export class SceneService {
     this.initDirectionalLight();
     this.initFloor();
     this.loadModel();
-    
+
     this.modelInit$.pipe(take(1)).subscribe(() => {
       this.camera.aspect = this.canvas.width / this.canvas.height;
       this.camera.updateProjectionMatrix();
       this.runAnimation('Greeting');
-      this.subscribeOnMouseMove();
+      // this.subscribeOnMouseMove();
     });
     this.animate();
   }
@@ -194,10 +194,10 @@ export class SceneService {
   private getMousePos(e: any) {
     return { x: e.clientX - this.canvas.getBoundingClientRect().left, y: e.clientY - this.canvas.getBoundingClientRect().top };
   }
-  
+
   private moveJoint(mouse: any, joint: any, degreeLimit: any) {
     let degrees = this.getMouseDegrees(mouse.x, mouse.y, degreeLimit);
-    
+
     joint.rotation.y = THREE.MathUtils.degToRad(degrees.x);
     joint.rotation.x = THREE.MathUtils.degToRad(degrees.y);
   }
@@ -214,28 +214,28 @@ export class SceneService {
 
 
     if (x <= w.x / 2) {
-      
+
       xdiff = w.x / 2 - x;
-      
+
       xPercentage = (xdiff / (w.x / 2)) * 100;
-      
+
       dx = ((degreeLimit * xPercentage) / 100) * -1;
     }
 
-    
+
     if (x >= w.x / 2) {
       xdiff = x - w.x / 2;
       xPercentage = (xdiff / (w.x / 2)) * 100;
       dx = (degreeLimit * xPercentage) / 100;
     }
-    
+
     if (y <= w.y / 2) {
       ydiff = w.y / 2 - y;
       yPercentage = (ydiff / (w.y / 2)) * 100;
-      
+
       dy = ((degreeLimit * 0.5 * yPercentage) / 100) * -1;
     }
-    
+
     if (y >= w.y / 2) {
       ydiff = y - w.y / 2;
       yPercentage = (ydiff / (w.y / 2)) * 100;

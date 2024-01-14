@@ -19,10 +19,21 @@ export class HeaderComponent implements OnInit {
         this.searchText = '';
       }
     })
+    this.filterService.updateFiltersSubject.subscribe({
+      next: () => {
+        this.searchText = this.filterService.filters.productNameSearch;
+      }
+    })
+    this.productService.getProductsEventSubject.subscribe({
+      next: () => {
+        this.searchText = this.filterService.filters.productNameSearch;
+      }
+    })
   }
 
   search() {
     this.filterService.filters.productNameSearch = this.searchText;
+    this.filterService.filters.pageNumber = 0;
     this.productService.getProductsEventSubject.next(null);
   }
 
