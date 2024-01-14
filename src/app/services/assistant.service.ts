@@ -17,7 +17,6 @@ export class AssistantService {
 
   private baseUrl: string = environment.baseUrl;
   private speechSynthesis: SpeechSynthesis = window.speechSynthesis;
-  private voice: SpeechSynthesisVoice = this.speechSynthesis.getVoices()[17];
   public message: string;
 
   constructor(
@@ -214,8 +213,8 @@ export class AssistantService {
         this.scene.runAnimation('Idle');
       })
     }
-    speechUtterance.voice = this.voice;
-    speechUtterance.pitch = 5;
+    speechUtterance.voice = this.speechSynthesis.getVoices()[118];
+    speechUtterance.pitch = 1.5;
     speechUtterance.rate = 1.3;
     this.speechSynthesis.speak(speechUtterance);
   }
