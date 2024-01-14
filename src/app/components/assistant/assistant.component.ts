@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AssistantService} from "../../services/assistant.service";
+import { SceneService } from 'src/app/services/scene.service';
+import { delay, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-assistant',
@@ -9,7 +11,7 @@ import {AssistantService} from "../../services/assistant.service";
 export class AssistantComponent implements OnInit {
   private speechRecognition?: SpeechRecognition;
   public recognizedText: string = '';
-  constructor(private assistantService: AssistantService) { }
+  constructor(private assistantService: AssistantService, private scene: SceneService) { }
 
   ngOnInit(): void {
     this.initSpeechRecognition();
@@ -22,7 +24,12 @@ export class AssistantComponent implements OnInit {
     this.speechRecognition.lang = "en-US";
     this.speechRecognition.addEventListener('result', (event: any) => {
       this.recognizedText = Array.from(event.results).map((result: any) => result[0]).map((result: any) => result.transcript).join(' ');
-      this.assistantService.recognition(this.recognizedText).subscribe({
+      this.assistantService.recognition(this.recognizedText).pipe(
+        tap(() => {
+          this.scene.runAnimation('Thinking');
+        }),
+        delay(5000)
+      ).subscribe({
         next: res => {
           this.assistantService.processResponse(res);
         }
