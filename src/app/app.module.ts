@@ -17,6 +17,7 @@ import { ProductPageComponent } from './pages/product-page/product-page.componen
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {CustomPaginator} from "./components/custom-paginator/custom-paginator";
 import {MatSelectModule} from "@angular/material/select";
+import { SceneContainer } from './components/threejs/scene-container.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import {MatSelectModule} from "@angular/material/select";
     HeaderComponent,
     AssistantComponent,
     ProductPageComponent,
-    CustomPaginator
+    CustomPaginator,
+    SceneContainer
   ],
   imports: [
     BrowserModule,
