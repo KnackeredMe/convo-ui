@@ -27,6 +27,11 @@ export class ProductService {
       .pipe(catchError(this.errorHandler.handleError));
   }
 
+  getProductById(id: number): Observable<any> {
+    return this.http.get<any>( this.baseUrl + 'products/' + id)
+      .pipe(catchError(this.errorHandler.handleError));
+  }
+
   getProductTypes(): Observable<any[]> {
     return this.http.get<any[]>( this.baseUrl + 'prodtypes')
       .pipe(catchError(this.errorHandler.handleError));

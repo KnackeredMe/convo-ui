@@ -72,7 +72,7 @@ export class AssistantService {
           if (value === 'last') {
             isSuccess = true;
             message = `Opening item ${maxItems}.`;
-            this.router.navigate(['products', this.productService.products[maxItems - 1].name]).then();
+            this.router.navigate(['products', this.productService.products[maxItems - 1].id]).then();
             break;
           }
           if (isNaN(valueNum)) {
@@ -82,7 +82,7 @@ export class AssistantService {
           if (valueNum >= minItems && valueNum <= maxItems) {
             isSuccess = true;
             message = `Opening item ${valueNum}.`;
-            this.router.navigate(['products', this.productService.products[valueNum - 1].name]).then();
+            this.router.navigate(['products', this.productService.products[valueNum - 1].id]).then();
             break;
           }
           isSuccess = false;

@@ -35,7 +35,7 @@ export class ProductsPageComponent implements OnInit {
   }
 
   selectProduct(product: IProduct) {
-    this.router.navigate(['products', product.name]).then();
+    this.router.navigate(['products', product.id]).then();
   }
 
   changePage(pageEvent: PageEvent) {
