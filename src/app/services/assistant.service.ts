@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {catchError} from "rxjs/operators";
+import {catchError, delay, tap} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
 import {ErrorHandlerService} from "./error-handler.service";
 import {environment} from "../../environments/environment";
@@ -15,8 +15,12 @@ import { timer } from 'rxjs';
 })
 export class AssistantService {
 
-  private baseUrl: string = environment.baseUrl;
+  private speechRecognition?: SpeechRecognition;
   private speechSynthesis: SpeechSynthesis = window.speechSynthesis;
+  private baseUrl: string = environment.baseUrl;
+  public recognizedText: string = '';
+  public isMicActive: boolean = false;
+  public wait: boolean = false;
   public message: string;
 
   constructor(
@@ -32,6 +36,36 @@ export class AssistantService {
     return this.http.post<any[]>( this.baseUrl + 'recognition', query)
       .pipe(catchError(this.errorHandler.handleError));
   }
+
+  initSpeechRecognition() {
+    //@ts-ignore
+    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    this.speechRecognition = new window.SpeechRecognition;
+    this.speechRecognition.lang = "en-US";
+    this.speechRecognition.addEventListener('result', (event: any) => {
+      this.recognizedText = Array.from(event.results).map((result: any) => result[0]).map((result: any) => result.transcript).join(' ');
+      this.recognition(this.recognizedText).pipe(
+        tap(() => {
+          this.scene.runAnimation('Thinking');
+        }),
+        delay(5000)
+      ).subscribe({
+        next: res => {
+          this.processResponse(res);
+          this.wait = false;
+        }
+      });
+    });
+  }
+
+  startSpeechRecognition() {
+    if(this.speechRecognition) {
+      this.speechRecognition.onaudiostart = () => {this.isMicActive = true; this.wait = true;}
+      this.speechRecognition.onaudioend = () => this.isMicActive = false;
+      this.speechRecognition?.start();
+    }
+  }
+
 
   public processResponse(response: IRecognizedFilters[]) {
     let message;
@@ -51,8 +85,7 @@ export class AssistantService {
             isSuccess = false;
             message = "Sorry, but you can not exit from the product list page. Please try requesting something else."; break;
           }
-          this.filterService.clearFilters();
-          this.router.navigate(['products']).then();
+          navigate = true;
           isSuccess = true;
           message = "Here you are.";
           break;
@@ -175,6 +208,9 @@ export class AssistantService {
             }
             numArray.push(id);
           });
+          if (this.filterService.filters.productTypeIds?.length) {
+            numArray.push(...this.filterService.filters.productTypeIds);
+          }
           this.filterService.filters.productTypeIds = numArray;
           navigate = true;
           isSuccess = true;
